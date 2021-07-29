@@ -27,10 +27,51 @@ placeholder(word);
 
 guessButton.addEventListener("click", function (e) {
 	e.preventDefault();
-	const guess = typeLetter.value;
-	console.log(guess);
-	typeLetter.value = "";
+	
+	message.innerText = "";
+	const guess = letterInput.value;
+	const goodGuess = validateInput(guess);
+	
+	if (goodGuess) {
+		makeGuess(guess);
+		
+	}
+	letterInput.value = "";
+	
 });
+	
+
+const validateInput = function (input) {
+  const acceptedLetter = /[a-zA-Z]/;
+  if (input.length === 0) {
+    // Is the input empty?
+    message.innerText = "Please enter a letter.";
+  } else if (input.length > 1) {
+    // Did you type more than one letter?
+    message.innerText = "Please enter a single letter.";
+  } else if (!input.match(acceptedLetter)) {
+    // Did you type anything else that was not a letter?
+    message.innerText = "Please enter a letter from A to Z.";
+  } else {
+    // We finally got a letter!
+    return input;
+  }
+};
+
+const makeGuess = function (guess) {
+  guess = guess.toUpperCase();
+  if (guessedLetters.includes(guess)) {
+    message.innerText = "You already guessed that letter, silly. Try again.";
+  } else {
+    guessedLetters.push(guess);
+    console.log(guessedLetters);
+  }
+};
+
+//const guess = typeLetter.value;
+	//console.log(guess);
+	//typeLetter.value = "";
+//});
 							
 
 
