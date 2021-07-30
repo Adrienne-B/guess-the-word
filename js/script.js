@@ -80,6 +80,9 @@ const makeGuess = function (guess) {
   } else {
     guessedLetters.push(guess);
     console.log(guessedLetters);
+	updateGuessesRemaining(guess);
+	showGuessedLetters();
+	updateGuessesRemaining(guessedLetters);  
   }
 };
 
@@ -93,6 +96,7 @@ const showGuessedLetters = function () {
     guessedLettersElement.append(li);
   }
 };
+
 
 const updateWordInProgress = function (guessedLetters) {
   const wordUpper = word.toUpperCase();
@@ -134,11 +138,36 @@ const checkIfWin = function () {
   if (word.toUpperCase() === wordInProgress.innerText) {
     message.classList.add("win");
     message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+	  
+	 startOver(); 
   }
 };
 
 
+const startOver = function () {
+  guessButton.classList.add("hide");
+  remainingGuessesElement.classList.add("hide");
+  guessedLettersElement.classList.add("hide");
+  playAgainButton.classList.remove("hide");
+};
 
+playAgainButton.addEventListener("click", function () {
+  // reset all original values - grab new word
+  message.classList.remove("win");
+  guessedLetters = [];
+  remainingGuesses = 8;
+  remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+  guessedLettersElement.innerHTML = "";
+  message.innerText = "";
+  // Grab a new word
+  getWord();
+
+  // show the right UI elements
+  guessLetterButton.classList.remove("hide");
+  playAgainButton.classList.add("hide");
+  remainingGuessesElement.classList.remove("hide");
+  guessedLettersElement.classList.remove("hide");
+});
 
 
 
